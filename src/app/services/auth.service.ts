@@ -34,4 +34,9 @@ export class AuthService {
     localStorage.removeItem('user');
     this.router.navigate(['login']);
   }
+
+  public getCurrentUser(){
+    return localStorage.getItem('user');
+  }
 }
+

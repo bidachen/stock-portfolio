@@ -31,7 +31,7 @@ export class RegisterPageComponent implements OnInit {
         this.router.navigate(['/login']);
       }
     )
-    .catch(e => {alert('invalid information!');});
+    .catch(e => {alert(e.message);});
   }
 
   buildForm(){

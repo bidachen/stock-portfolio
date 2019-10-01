@@ -1,1 +1,31 @@
-<p>transactions-page works!</p>
+<h1>Transactions</h1>
+
+<div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
+    <div fxFlex>
+      <mat-table [dataSource]="transactions" matSort>
+        <ng-container matColumnDef="type">
+          <mat-checkbox></mat-checkbox>
+          <mat-header-cell fxFlex="200px" *matHeaderCellDef mat-sort-header>type</mat-header-cell>
+          <mat-cell fxFlex="200px" *matCellDef="let row"> {{ row.type }} </mat-cell>
+        </ng-container>
+  
+        <ng-container matColumnDef="stock">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>stock</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.stock  }} </mat-cell>
+        </ng-container>
+  
+        <ng-container matColumnDef="numOfShares">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>numOfShares</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.numOfShares  }} </mat-cell>
+        </ng-container>
+  
+        <ng-container matColumnDef="price">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>price</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.price  }} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"> </mat-row>
+      </mat-table>
+  </div>
+</div>
