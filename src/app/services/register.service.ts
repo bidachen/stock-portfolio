@@ -8,26 +8,18 @@ import { AngularFireAuth } from  "@angular/fire/auth";
 
 export class RegisterService {
   constructor(public angularFireAuth: AngularFireAuth,private db: AngularFirestore){}
-  async createUser(newUser){
-    try{
-      await this.angularFireAuth.auth.createUserWithEmailAndPassword(
-      newUser.value.email, newUser.value.password
-    )
-      this.saveUser(newUser);
-      return;
-    }
-    catch(e) {
-      alert(e.message);
-    }
-
+  createUser(newUser){
+    return this.angularFireAuth.auth.createUserWithEmailAndPassword(
+      newUser.value.email, newUser.value.password)
   }
   
   saveUser(newUser){
     this.db.collection('users').doc(newUser.value.email).set({
       name: newUser.value.name,
-    }).then(res => {return;})
-    .catch(e => {console.log(e)});
-    this.db.collection('users/' + newUser.value.email + '/transactions').add({});
+      balance: 5000,
+    }).then(res => {
+      this.db.collection('users/' + newUser.value.email + '/transactions').add({});
+      });
 }
 
 }

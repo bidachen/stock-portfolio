@@ -1,5 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-
+import {RegisterService} from '../../services/register.service';
+import { Router } from '@angular/router';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  FormControl,
+  ValidatorFn
+} from "@angular/forms";
 @Component({
   selector: 'app-register-page',
   templateUrl: './register-page.component.html',
@@ -7,9 +16,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterPageComponent implements OnInit {
 
-  constructor() { }
+  addUserForm: FormGroup;
+  constructor(private formBuilder: FormBuilder, private registerService: RegisterService, private router: Router) { }
 
   ngOnInit() {
+    this.buildForm();
+  }
+
+  onSubmit(){
+    this.registerService.createUser(this.addUserForm)
+    .then(
+      res => {
+        this.registerService.saveUser(this.addUserForm);
+        this.router.navigate(['/login']);
+      }
+    )
+    .catch(e => {alert('invalid information!');});
+  }
+
+  buildForm(){
+    this.addUserForm = this.formBuilder.group({
+      name: ["", Validators.required],
+      password: ["", Validators.compose([Validators.required, Validators.minLength(6)])],
+      email: ["", Validators.compose([Validators.required, Validators.pattern('[0-9A-Za-z]{1,}[@][0-9A-Za-z]{1,}[.][A-Za-z]{1,}')])],
+    })
   }
 
 }
