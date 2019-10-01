@@ -1,1 +1,46 @@
-<p>portfolio-page works!</p>
+<h1>Portfolio ($1234)</h1>
+<mat-grid-list cols="2" rowHeight='100%'>
+    <mat-grid-tile>
+        <table width='100%' mat-table [dataSource]="transactions" class="mat-elevation-z8">
+            <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef> type </th>
+                <td mat-cell *matCellDef="let row"> {{row.type}} </td>
+            </ng-container>
+                  
+            <ng-container matColumnDef="stock">
+                <th mat-header-cell *matHeaderCellDef> stock </th>
+                <td mat-cell *matCellDef="let row"> {{row.stock}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="numOfShares">
+                <th mat-header-cell *matHeaderCellDef> numOfShares </th>
+                <td mat-cell *matCellDef="let row"> {{row.numOfShares}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="price">
+                <th mat-header-cell *matHeaderCellDef> price </th>
+                <td mat-cell *matCellDef="let row"> {{row.price}} </td>
+            </ng-container>
+                  
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+                  
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <form class="login-Form" [formGroup]="loginUserForm">
+            <h1>cash - $1234</h1>
+            <mat-form-field appearance="outline">
+                <mat-label>ticker</mat-label>
+                <input matInput formControlName="email">
+            </mat-form-field>
+            <div></div>
+            <mat-form-field appearance="outline">
+                <mat-label>Qty</mat-label>
+                <input matInput formControlName="password">
+            </mat-form-field>
+            <div></div>
+            <button mat-raised-button (click)="onSubmit()">Buy</button>
+        </form>
+    </mat-grid-tile>
+</mat-grid-list>
