@@ -1,4 +1,6 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import {UserInfoService} from '../../services/user-info.service';
+import {AuthService} from '../../services/auth.service';
 interface Transaction {
   type: string;
   stock: string;
@@ -36,10 +38,15 @@ export class TransactionsPageComponent implements OnInit {
   ];
 
   public displayedColumns = ['type', 'stock', 'numOfShares', 'price'];
-  constructor() { 
+  constructor(private userInfoService: UserInfoService, private authService: AuthService) { 
   }
 
   ngOnInit() {
   }
 
+  public getTransactions(){
+    this.userInfoService.getTransactions(this.authService.getCurrentUser()).subscribe(res => {
+      console.log(res.payload.data())
+    });
+  }
 }

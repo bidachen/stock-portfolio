@@ -1,5 +1,5 @@
 <h1>Transactions</h1>
-
+<button mat-raised-button (click)='getTransactions()'>getUser</button>
 <mat-table [dataSource]="transactions" matSort>
     <ng-container matColumnDef="type">
         <mat-checkbox></mat-checkbox>

@@ -36,7 +36,7 @@ export class AuthService {
   }
 
   public getCurrentUser(){
-    return localStorage.getItem('user');
+    return JSON.parse(localStorage.getItem('user'));
   }
 }
 

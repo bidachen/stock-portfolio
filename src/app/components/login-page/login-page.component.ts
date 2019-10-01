@@ -6,12 +6,7 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
-  AbstractControl,
-  FormControl,
-  ValidatorFn
 } from "@angular/forms";
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
-import { AngularFirestore, QueryFn } from "@angular/fire/firestore";
 import {AuthService} from '../../services/auth.service';
 @Component({
   selector: 'app-login-page',

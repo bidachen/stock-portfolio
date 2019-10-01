@@ -5,9 +5,6 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
-  AbstractControl,
-  FormControl,
-  ValidatorFn
 } from "@angular/forms";
 @Component({
   selector: 'app-register-page',
