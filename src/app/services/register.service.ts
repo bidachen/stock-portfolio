@@ -24,7 +24,7 @@ export class RegisterService {
   
   saveUser(newUser){
     this.db.collection('users').doc(newUser.value.email).set({
-      name: formGroup.value.name,
+      name: newUser.value.name,
     }).then(res => {return;})
     .catch(e => {console.log(e)});
     this.db.collection('users/' + newUser.value.email + '/transactions').add({});

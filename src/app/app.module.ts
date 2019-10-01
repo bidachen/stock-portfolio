@@ -8,20 +8,29 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { RegisterPageComponent } from './components/register-page/register-page.component';
 import { PortfolioPageComponent } from './components/portfolio-page/portfolio-page.component';
-import { TransactionPageComponent } from './components/transaction-page/transaction-page.component';
+import { TransactionsPageComponent } from './components/transactions-page/transactions-page.component';
+
+import {AngularFireModule} from '@angular/fire';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {environment} from '../environments/environment';
+import { AngularFireAuthModule } from "@angular/fire/auth";
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
     RegisterPageComponent,
     PortfolioPageComponent,
-    TransactionPageComponent
+    TransactionsPageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MaterialModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
