@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
+import {Transaction} from '../models/transaction';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +18,13 @@ export class UserInfoService {
   }
 
   public getTransactions(currentUser){
-    return this.db.collection('users/' + currentUser.email + '/transactions').snapshotChanges();
+    return this.db.collection('users/' + currentUser.email + '/transactions').snapshotChanges()
+    .pipe(map(actions => 
+      actions.map(obj => {
+        const data = obj.payload.doc.data();
+        return {data};
+      })));
+;
   }
 
   public updateTransactions(currentUser, newTransaction){

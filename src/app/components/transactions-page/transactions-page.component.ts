@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import {UserInfoService} from '../../services/user-info.service';
 import {AuthService} from '../../services/auth.service';
+import {MatTableDataSource} from '@angular/material/table';
 interface Transaction {
   type: string;
   stock: string;
@@ -16,37 +17,23 @@ interface Transaction {
 
 export class TransactionsPageComponent implements OnInit {
   
-  public transactions: Transaction[] = [
-    {type: 'BUY', stock: '(AAPL)', numOfShares: '6 shares', price: 200},
-    {type: 'BUY', stock: '(AAPL)', numOfShares: '6 shares', price: 200},
-    {type: 'BUY', stock: '(AAPL)', numOfShares: '6 shares', price: 200},
-    {type: 'BUY', stock: '(AAPL)', numOfShares: '6 shares', price: 200},
-    {type: 'BUY', stock: '(AAPL)', numOfShares: '6 shares', price: 200},
-    {type: 'BUY', stock: '(AAPL)', numOfShares: '6 shares', price: 200},
-    {type: 'BUY', stock: '(AAPL)', numOfShares: '6 shares', price: 200},
-    {type: 'BUY', stock: '(AAPL)', numOfShares: '6 shares', price: 200},
-    {type: 'BUY', stock: '(AAPL)', numOfShares: '6 shares', price: 200},
-    {type: 'BUY', stock: '(AAPL)', numOfShares: '6 shares', price: 200},
-    {type: 'BUY', stock: '(AAPL)', numOfShares: '6 shares', price: 200},
-    {type: 'BUY', stock: '(AAPL)', numOfShares: '6 shares', price: 200},
-    {type: 'BUY', stock: '(AAPL)', numOfShares: '6 shares', price: 200},
-    {type: 'BUY', stock: '(AAPL)', numOfShares: '6 shares', price: 200},
-    {type: 'BUY', stock: '(AAPL)', numOfShares: '6 shares', price: 200},
-    {type: 'BUY', stock: '(AAPL)', numOfShares: '6 shares', price: 200},
-    {type: 'BUY', stock: '(AAPL)', numOfShares: '6 shares', price: 200},
-    {type: 'BUY', stock: '(AAPL)', numOfShares: '6 shares', price: 200},
-  ];
+  public transactions = [];
+  public dataSource;
 
   public displayedColumns = ['type', 'stock', 'numOfShares', 'price'];
   constructor(private userInfoService: UserInfoService, private authService: AuthService) { 
   }
 
   ngOnInit() {
+    this.getTransactions()
   }
 
   public getTransactions(){
     this.userInfoService.getTransactions(this.authService.getCurrentUser()).subscribe(res => {
-      console.log(res.payload.data())
-    });
+      res.forEach(item => {
+        this.transactions.push(item.data);
+      })
+      this.dataSource = new MatTableDataSource(this.transactions);
+    })
   }
 }
