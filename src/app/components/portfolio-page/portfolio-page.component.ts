@@ -33,7 +33,7 @@ export class PortfolioPageComponent implements OnInit {
   public buildForm(){
     this.newTranction = this.formBuilder.group({
       ticker: ["", Validators.required],
-      Qty: ['', Validators.compose([Validators.required, Validators.pattern('[1-9]{1,}')])],
+      Qty: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{1,}'), Validators.min(1)])],
     });
   }
   
@@ -47,6 +47,8 @@ export class PortfolioPageComponent implements OnInit {
             }
             else{
               this.newTranction.patchValue({'Qty': parseInt(this.balance / res["Global Quote"]["05. price"])})
+              let max = this.newTranction.value.Qty;
+              this.newTranction.controls['Qty'].setValidators([Validators.required, Validators.pattern('[0-9]{1,}'), Validators.min(1),Validators.max(max)])
             }
           })
         }
@@ -105,21 +107,19 @@ export class PortfolioPageComponent implements OnInit {
 
   public getTransactions(){
     this.userInfoService.getTransactions(this.authService.getCurrentUser()).subscribe(res => {
+      this.transactions = [];
       res.forEach(item => {
         this.transactions.push(item.data);
       })
       this.dataSource = new MatTableDataSource(this.transactions);
-      this.getValues();
+      this.getStockValues();
     })
   }
 
-  public getValues() {
+  public getStockValues() {
     this.transactions.forEach(item => {
-      setTimeout(() => {
-        this.alphaVantageApiService.getCurrentPrice(item.stock).subscribe(res => {
-          this.stockValueTotle += res["Global Quote"]["05. price"] * item.numOfShares;
-      })
-      }, 500);
+          this.stockValueTotle += item.price * item.numOfShares;
     })
+
   }
 }

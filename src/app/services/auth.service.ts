@@ -11,10 +11,10 @@ export class AuthService {
     this.angularFireAuth.authState.subscribe(user => {
       if(user){
         this.user = user;
-        localStorage.setItem('user', JSON.stringify(this.user));
+        sessionStorage.setItem('user', JSON.stringify(this.user));
       }
       else{
-        localStorage.setItem('user', null);
+        sessionStorage.setItem('user', null);
       }
     })
   }
@@ -31,12 +31,12 @@ export class AuthService {
 
   async logout(){
     await this.angularFireAuth.auth.signOut();
-    localStorage.removeItem('user');
+    sessionStorage.removeItem('user');
     this.router.navigate(['login']);
   }
 
   public getCurrentUser(){
-    return JSON.parse(localStorage.getItem('user'));
+    return JSON.parse(sessionStorage.getItem('user'));
   }
 }
 

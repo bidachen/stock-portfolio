@@ -18,7 +18,4 @@ export class AppComponent {
     this.router.navigate(['login']);
   }
 
-  private getUser(){
-    this.authService.getCurrentUser();
-  }
 }
