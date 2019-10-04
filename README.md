@@ -1,4 +1,7 @@
 # StockPortfolio
+This project is for NYC Tech Talent Pipeline stage 2.
+The website is hosted on Firebase.
+https://stock-portfolio-efba9.firebaseapp.com/
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.6.
 
