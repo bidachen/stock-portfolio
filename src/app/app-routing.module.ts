@@ -3,19 +3,21 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { RegisterPageComponent } from './components/register-page/register-page.component';
 import { PortfolioPageComponent } from './components/portfolio-page/portfolio-page.component';
-import { TransactionPageComponent } from './components/transaction-page/transaction-page.component';
-
+import { TransactionsPageComponent } from './components/transactions-page/transactions-page.component';
+import { AuthGuardService } from './services/auth-guard.service';
+import { AuthService } from './services/auth.service';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/LoginPageComponent', pathMatch: 'full' },
-  { path: 'login', component: LoginPageComponent },
-  { path: 'register', component: RegisterPageComponent },
-  { path: 'portfolio', component: PortfolioPageComponent },
-  { path: 'transaction', component: TransactionPageComponent },
+  { path: '', redirectTo: '/portfolio', pathMatch: 'full' },
+  { path: 'login', component: LoginPageComponent},
+  { path: 'register', component: RegisterPageComponent},
+  { path: 'portfolio', component: PortfolioPageComponent, canActivate: [AuthGuardService]},
+  { path: 'transactions', component: TransactionsPageComponent, canActivate: [AuthGuardService]},
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthService, AuthGuardService]
 })
 export class AppRoutingModule { }

@@ -1,1 +1,25 @@
-<p>transactions-page works!</p>
+<h1>Transactions</h1>
+<table width='100%' mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf='transactions'>  
+    <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef> type </th>
+        <td mat-cell *matCellDef="let row"> {{row.type}} </td>
+    </ng-container>
+                  
+    <ng-container matColumnDef="stock">
+        <th mat-header-cell *matHeaderCellDef> stock </th>
+        <td mat-cell *matCellDef="let row"> {{row.stock}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="numOfShares">
+        <th mat-header-cell *matHeaderCellDef> numOfShares </th>
+        <td mat-cell *matCellDef="let row"> {{row.numOfShares}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef> price </th>
+        <td mat-cell *matCellDef="let row"> {{row.price}} </td>
+    </ng-container>
+                  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
