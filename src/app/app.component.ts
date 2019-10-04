@@ -13,7 +13,7 @@ export class AppComponent {
   
   ngOnInit(){}
   
-  private logout(){
+  public logout(){
     this.authService.logout();
     this.router.navigate(['login']);
   }

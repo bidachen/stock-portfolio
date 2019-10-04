@@ -42,7 +42,7 @@ export class PortfolioPageComponent implements OnInit {
     this.StockApiService.searchStock(this.newTranction.value.ticker).subscribe(
       res => {
         if (res['data']){
-              this.newTranction.patchValue({'Qty': parseInt(this.balance / res["data"][0]["price"]).toString()})
+              this.newTranction.patchValue({'Qty': parseInt((this.balance / res["data"][0]["price"]).toString()).toString()})
               let max = this.newTranction.value.Qty;
               this.newTranction.controls['Qty'].setValidators([Validators.required, Validators.pattern('[0-9]{1,}'), Validators.min(1),Validators.max(max)])
             }
