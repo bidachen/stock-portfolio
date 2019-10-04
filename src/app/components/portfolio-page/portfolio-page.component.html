@@ -18,7 +18,7 @@
 
             <ng-container matColumnDef="price">
                 <th mat-header-cell *matHeaderCellDef> price </th>
-                <td mat-cell *matCellDef="let row"> {{row.price}} </td>
+                <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.price}} </td>
             </ng-container>
                   
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -27,7 +27,7 @@
                   
     </mat-grid-tile>
     <mat-grid-tile>
-        <form class="login-Form" [formGroup]="newTranction">
+        <form class="login-Form" [formGroup]="newTranction" class='buy-stock-form'>
             <h1>Portfolio (${{stockValueTotle}})</h1>
             <h1>cash - ${{balance}}</h1>
             <mat-form-field appearance="outline">
@@ -40,7 +40,7 @@
                 <input matInput formControlName="Qty">
             </mat-form-field>
             <div>
-                <button mat-raised-button [disabled]="!newTranction.valid" (click)="buyClick()">Buy</button>
+                <button class='buy-btn' mat-raised-button [disabled]="!newTranction.valid" (click)="buyClick()">Buy</button>
             </div>
         </form>
     </mat-grid-tile>

@@ -7,7 +7,7 @@ import {
 
 import {UserInfoService} from '../../services/user-info.service';
 import {AuthService} from '../../services/auth.service';
-import {AlphaVantageApiService} from '../../services/alpha-vantage-api.service';
+import {StockApiService} from '../../services/stock-api.service';
 import {MatTableDataSource} from '@angular/material/table';
 @Component({
   selector: 'app-portfolio-page',
@@ -21,7 +21,7 @@ export class PortfolioPageComponent implements OnInit {
   public dataSource;
   public displayedColumns = ['type', 'stock', 'numOfShares', 'price'];
   public stockValueTotle: number = 0;
-  constructor(private formBuilder: FormBuilder, private userInfoService: UserInfoService, private authService: AuthService, private alphaVantageApiService: AlphaVantageApiService) { }
+  constructor(private formBuilder: FormBuilder, private userInfoService: UserInfoService, private authService: AuthService, private StockApiService: StockApiService) { }
 
   ngOnInit() {
     this.buildForm();
@@ -33,44 +33,38 @@ export class PortfolioPageComponent implements OnInit {
   public buildForm(){
     this.newTranction = this.formBuilder.group({
       ticker: ["", Validators.required],
-      Qty: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{1,}'), Validators.min(1)])],
+      Qty: ["", Validators.compose([Validators.required, Validators.pattern('[0-9]{1,}'), Validators.min(1)])],
     });
   }
   
+  //update max Qty can input
   public updateQty(){
-    this.alphaVantageApiService.searchStock(this.newTranction.value.ticker).subscribe(
+    this.StockApiService.searchStock(this.newTranction.value.ticker).subscribe(
       res => {
-        if (res['bestMatches'] && res['bestMatches'][0]['9. matchScore'] == '1.0000'){
-          this.alphaVantageApiService.getCurrentPrice(this.newTranction.value.ticker).subscribe(res => {
-            if (!res["Global Quote"]){
-              alert('change too frequent!');
-            }
-            else{
-              this.newTranction.patchValue({'Qty': parseInt(this.balance / res["Global Quote"]["05. price"])})
+        if (res['data']){
+              this.newTranction.patchValue({'Qty': parseInt(this.balance / res["data"][0]["price"]).toString()})
               let max = this.newTranction.value.Qty;
               this.newTranction.controls['Qty'].setValidators([Validators.required, Validators.pattern('[0-9]{1,}'), Validators.min(1),Validators.max(max)])
             }
-          })
-        }
-
         else{
-          alert('invalid!');
+          alert('not found!');
         }
       }
     )
   }
 
+  //buy new shares method,
+  //check if the symbol is valid first, if it is valid then add it to the DB
   public buyClick(){
     var isAbleToBuy = true;
-    this.alphaVantageApiService.searchStock(this.newTranction.value.ticker).subscribe(
+    this.StockApiService.searchStock(this.newTranction.value.ticker).subscribe(
       res => {
-        if (res['bestMatches'] && res['bestMatches'][0]['9. matchScore'] == '1.0000'){
-          this.alphaVantageApiService.getCurrentPrice(this.newTranction.value.ticker).subscribe(res => {
-            var newBalance = this.balance - this.newTranction.value.Qty * res["Global Quote"]["05. price"]
+        if (res['data']){
+            var newBalance = this.balance - this.newTranction.value.Qty * res["data"][0]["price"]
             newBalance = parseFloat(newBalance.toFixed(2));
             
-            if (!res["Global Quote"] || newBalance < 0){
-              alert('api not responding or not enough balance');
+            if (newBalance < 0){
+              alert('not enough balance');
             }
             else{
               try{
@@ -80,7 +74,7 @@ export class PortfolioPageComponent implements OnInit {
                   type: 'BUY',
                   stock: this.newTranction.value.ticker,
                   numOfShares: this.newTranction.value.Qty,
-                  price: parseFloat(res["Global Quote"]["05. price"])
+                  price: parseFloat(res["data"][0]["price"])
                 };
                 this.userInfoService.updateTransactions(this.authService.getCurrentUser(), newTranction);
                 alert('success!')
@@ -89,12 +83,13 @@ export class PortfolioPageComponent implements OnInit {
                 alert('error!')
               }
             }
-          })
+        }
+
+        else{
+          alert('not found!');
         }
       }
     )
-
-    //if (this.alphaVantageApiService.searchStock(this.newTranction.value.ticker))
   }
 
   public getBalance(){
@@ -116,10 +111,22 @@ export class PortfolioPageComponent implements OnInit {
     })
   }
 
+  //using api to get current price of all shares the user has,
+  //then update the color and totle value
   public getStockValues() {
     this.transactions.forEach(item => {
-          this.stockValueTotle += item.price * item.numOfShares;
+      this.StockApiService.searchStock(item.stock).subscribe(
+        res => {
+          this.stockValueTotle += res["data"][0]["price"] * item.numOfShares;
+          item.price = res["data"][0]["price"];
+          if (res["data"][0]["price"]> res["data"][0]["price_open"])
+              item['color']='green'
+          else if (res["data"][0]["price"]< res["data"][0]["price_open"])
+              item['color']='red'
+          else
+              item['color']='gray'
+          this.stockValueTotle = parseFloat(this.stockValueTotle.toFixed(2))
+        })  
     })
-
   }
 }

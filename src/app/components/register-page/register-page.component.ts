@@ -33,9 +33,9 @@ export class RegisterPageComponent implements OnInit {
 
   buildForm(){
     this.addUserForm = this.formBuilder.group({
-      name: ["", Validators.required],
+      name: ["", Validators.compose([Validators.required, Validators.minLength(2)])],
       password: ["", Validators.compose([Validators.required, Validators.minLength(6)])],
-      email: ["", Validators.compose([Validators.required, Validators.pattern('[0-9A-Za-z]{1,}[@][0-9A-Za-z]{1,}[.][A-Za-z]{1,}')])],
+      email: ["", Validators.compose([Validators.required, Validators.pattern('.+[@].+[.].+')])],
     })
   }
 

@@ -33,4 +33,6 @@ export class LoginPageComponent implements OnInit {
     this.authService.login(this.loginUserForm.value.email,this.loginUserForm.value.password);
   }
 
+
+
 }

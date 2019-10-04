@@ -1,18 +1,18 @@
 <div class="form-div">
-  <form class="login-Form" [formGroup]="loginUserForm">
-    <mat-form-field appearance="outline">
+  <form [formGroup]="loginUserForm">
+    <mat-form-field class='login-form' appearance="outline">
       <mat-icon matSuffix>account_circle</mat-icon>
       <mat-label>email</mat-label>
       <input matInput formControlName="email">
     </mat-form-field>
     <div></div>
-    <mat-form-field appearance="outline">
+    <mat-form-field class='login-form' appearance="outline">
       <mat-icon matSuffix>lock</mat-icon>
       <mat-label>password</mat-label>
       <input matInput formControlName="password" type='password'>
     </mat-form-field>
     <div></div>
-    <button mat-raised-button (click)="onSubmit()">submit</button>
-    <button outerLinkActive="active" routerLink="/register" mat-raised-button>register</button>
+    <button mat-raised-button (click)="onSubmit()">sign in</button>
+    <button class='register-btn' outerLinkActive="active" routerLink="/register" mat-raised-button>register</button>
   </form>
 </div>

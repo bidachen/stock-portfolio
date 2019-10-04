@@ -1,17 +1,20 @@
 <form class="registerForm" [formGroup]="addUserForm">
-  <mat-form-field appearance="outline">
+  <mat-form-field class='form-width' appearance="outline">
     <mat-label>username</mat-label>
     <input matInput formControlName="name" />
   </mat-form-field>
   <br/>
-  <mat-form-field appearance="outline">
+  <mat-form-field class='form-width' appearance="outline">
     <mat-label>email</mat-label>
     <input matInput formControlName="email" />
   </mat-form-field>
   <br/>
-  <mat-form-field appearance="outline">
+  <mat-form-field class='form-width' appearance="outline">
     <mat-label>password</mat-label>
     <input matInput formControlName="password" type='password'/>
   </mat-form-field>
-  <button mat-raised-button [disabled]="!addUserForm.valid" (click)="onSubmit()">submit</button>
+  <br/>
+  
+  <button mat-raised-button [disabled]="!addUserForm.valid" (click)="onSubmit()">sign up</button>
+  <button class='backLogin-btn' outerLinkActive="active" routerLink="/login" mat-raised-button>login</button>
 </form>

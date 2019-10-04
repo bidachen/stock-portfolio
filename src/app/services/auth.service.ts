@@ -12,6 +12,7 @@ export class AuthService {
       if(user){
         this.user = user;
         sessionStorage.setItem('user', JSON.stringify(this.user));
+        this.router.navigate(['portfolio']);
       }
       else{
         sessionStorage.setItem('user', null);
